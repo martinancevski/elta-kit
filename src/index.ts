@@ -5,6 +5,7 @@ import fs from "fs"
 import {KitResults} from "./kit.results";
 import {KIT_HPV, KIT_STD} from "./kit.data";
 import XLSX from "xlsx"
+var html_tablify = require('html-tablify');
 dotenv.config();
 
 const app: Express = express();
@@ -28,7 +29,7 @@ const excelToJson = require('convert-excel-to-json');
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`
-    <h2>With <code>"express"</code> npm package</h2>
+    <h2>Elta kit analyzer</h2>
     <form action="/api/upload" enctype="multipart/form-data" method="post">
         <div>
         <select name="kitType" id="kitType">     
@@ -65,11 +66,14 @@ app.post('/api/upload', (req, res, next) => {
     })
     let kitResult = new KitResults(kits[value[0]],resultJson.Result)
     let result = kitResult.getXlsResult()
-
-    let workbook = XLSX.utils.book_new()
-    let tempWorkbook = KitResults.convertJsonToMatrix(result.xlsTable)!
-    let ws = XLSX.utils.aoa_to_sheet(tempWorkbook)
-    XLSX.utils.book_append_sheet(workbook,ws)
+    let options = {
+      data:result.xlsTable
+    }
+    let htmlData = html_tablify.tablify(options)
+    // let workbook = XLSX.utils.book_new()
+    // let tempWorkbook = KitResults.convertJsonToMatrix(result.xlsTable)!
+    // let ws = XLSX.utils.aoa_to_sheet(tempWorkbook)
+    // XLSX.utils.book_append_sheet(workbook,ws)
     // let data = XLSX.write(workbook,{})
     // console.log(data)
     // res.writeHead(200, {
@@ -78,7 +82,8 @@ app.post('/api/upload', (req, res, next) => {
     //   'Content-Length': data.length
     // });
     // res.end(Buffer.from(data, 'binary'));
-    res.json(result);
+    // res.json(result);
+    res.send(htmlData)
   });
 });
 
