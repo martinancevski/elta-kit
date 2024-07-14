@@ -18,9 +18,7 @@
     "formidable": "^3.5.1",
     "fs": "^0.0.1-security",
     "lodash": "^4.17.21",
-    "xlsx": "^0.18.5"
-  },
-  "devDependencies": {
+    "xlsx": "^0.18.5",
     "@types/express": "^4.17.21",
     "@types/formidable": "^3.4.5",
     "@types/lodash": "^4.17.6",
@@ -28,5 +26,8 @@
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3"
+  },
+  "devDependencies": {
+
   }
 }
