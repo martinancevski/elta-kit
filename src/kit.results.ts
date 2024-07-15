@@ -112,7 +112,7 @@ export class KitResults{
         }
         let table:any[] = []
         for (let key in result){
-            console.log("Key "+key)
+
             let value = result[key]
             let temp:any = {}
 
@@ -121,7 +121,7 @@ export class KitResults{
             }
             table.push(temp)
         }
-        console.log(table)
+
         // Utils.writeExcelFile("Test file 2 result",table)
         return {
             data:result,

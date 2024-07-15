@@ -11,6 +11,10 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 const excelToJson = require('convert-excel-to-json');
 
 // function run(){
@@ -30,6 +34,29 @@ const excelToJson = require('convert-excel-to-json');
 app.get("/", (req: Request, res: Response) => {
   res.send(`
     <h2>Genematrix analyzer</h2>
+    <form action="/app"  method="post">
+        <div>
+            Username: 
+            <input type="text" name="user" id="user"/>
+        </div>
+        <div>
+            Password: 
+            <input type="text" name="pass" id="pass"/>
+        </div>
+      
+      <input type="submit" value="Login" />
+    </form>
+  `);
+});
+
+app.post("/app", (req: Request, res: Response) => {
+
+  let user = req.body.user
+  let pass = req.body.pass
+  let correct = user === "Ginekologija lab" && pass === "Ginekologija1"
+  if (correct){
+    res.send(`
+    <h2>Genematrix analyzer</h2>
     <form action="/api/upload" enctype="multipart/form-data" method="post">
         <div>
         <select name="kitType" id="kitType">     
@@ -43,6 +70,12 @@ app.get("/", (req: Request, res: Response) => {
       <input type="submit" value="Upload" />
     </form>
   `);
+  }else{
+    res.send(`
+      <h2>Invalid username or password</h2>
+    `)
+  }
+
 });
 
 app.post('/api/upload', (req, res, next) => {
