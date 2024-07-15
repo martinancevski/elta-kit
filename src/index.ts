@@ -5,6 +5,7 @@ import fs from "fs"
 import {KitResults} from "./kit.results";
 import {KIT_HPV, KIT_STD} from "./kit.data";
 import XLSX from "xlsx"
+import moment from "moment";
 var html_tablify = require('html-tablify');
 dotenv.config();
 
@@ -93,6 +94,50 @@ app.post('/api/upload', (req, res, next) => {
       "HPV":KIT_HPV,
       "STD":KIT_STD
     }
+
+    let kitTitles:any = {
+      "HPV":"NeoPlex™ HPV29 Detection",
+      "STD":"NeoPlex™ STI-14 Detection"
+    }
+    let kitHeaders:any = {
+      "HPV":`
+       cellpadding="8">
+<tr>
+<th colspan="2"></th>
+<th colspan="14">T1</th>
+<th colspan="15">T2</th>
+</tr>
+<tr>
+<th colspan="2"></th>
+<th colspan="3">FAM</th>
+<th colspan="3">HEX</th>
+<th colspan="3">Texas Red</th>
+<th colspan="3">Cy5</th>
+<th colspan="2">Alexa Fluor 680</th>
+<th colspan="3">FAM</th>
+<th colspan="3">HEX</th>
+<th colspan="3">Texas Red</th>
+<th colspan="3">Cy5</th>
+<th colspan="3">Alexa Fluor 680</th>
+</tr>`,
+      "STD":`
+       cellpadding="8">
+<tr>
+<th colspan="2"></th>
+<th colspan="14">T1</th>
+</tr>
+<tr>
+<th colspan="2"></th>
+<th colspan="3">FAM</th>
+<th colspan="3">HEX</th>
+<th colspan="3">Texas Red</th>
+<th colspan="3">Cy5</th>
+<th colspan="2">Alexa Fluor 680</th>
+</tr>
+      `
+    }
+    let kitHeader = kitHeaders[value[0]]
+    let kitTitle = kitTitles[value[0]]
     let file = files["testResult"]![0]
     let resultJson = excelToJson({
     sourceFile:file.filepath
@@ -107,8 +152,17 @@ app.post('/api/upload', (req, res, next) => {
       cellpadding: 8
     }
     let htmlData = html_tablify.tablify(options)
+    
     htmlData = htmlData.replaceAll("<td>+</td>","<td style=\"color:red\n" +
         "\">+</td>")
+    htmlData = htmlData.replaceAll(" cellpadding=\"8\">",kitHeader)
+    htmlData = `
+      <h2>${kitTitle}</h2>
+           ${htmlData}
+       <p>${file.originalFilename}</p>
+       <p>${moment()
+        .format("DD/MM/YYYY HH:mm:ss")}</p>
+    `
     // let workbook = XLSX.utils.book_new()
     // let tempWorkbook = KitResults.convertJsonToMatrix(result.xlsTable)!
     // let ws = XLSX.utils.aoa_to_sheet(tempWorkbook)

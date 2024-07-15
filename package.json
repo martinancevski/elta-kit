@@ -23,6 +23,7 @@
     "fs": "^0.0.1-security",
     "html-tablify": "^2.0.4",
     "lodash": "^4.17.21",
+    "moment": "^2.30.1",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
