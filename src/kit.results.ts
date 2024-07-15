@@ -38,6 +38,7 @@ export class KitResults{
             }
 
         }
+        resultKeys.push("comment")
         for (let row of this.resultData){
             let sampleId = row.C
             if (sampleId === "PC1" || sampleId === "PC2"){
@@ -67,6 +68,12 @@ export class KitResults{
                 }
 
             }
+            if (sampleId === "PC" || sampleId === "PC1/2"){
+                sampleResult.comment = "Positive control"
+            }else{
+                sampleResult.comment = ""
+            }
+
         }
 
         for (let row of this.resultData){
@@ -95,6 +102,11 @@ export class KitResults{
                         sampleResult.IC += "✓"
                     }else{
                         sampleResult[specKey] += "+"
+                        if (sampleId === "PC" || sampleId === "PC1/2"){
+                            // sampleResult.comment = "Positive control"
+                        }else{
+                            sampleResult.comment += specKey+" "
+                        }
                     }
 
 

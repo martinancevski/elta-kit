@@ -34,19 +34,58 @@ const excelToJson = require('convert-excel-to-json');
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`
-    <h2>Genematrix analyzer</h2>
-    <form action="/app"  method="post">
-        <div>
-            Username: 
-            <input type="text" name="user" id="user"/>
-        </div>
-        <div>
-            Password: 
-            <input type="text" name="pass" id="pass"/>
-        </div>
-      
-      <input type="submit" value="Login" />
-    </form>
+    <div style="display: flex;
+   height: 100vh;
+   align-content: center;
+   justify-content: center;
+   flex-direction: column;
+   text-align: center;
+   font-size: 14pt;">
+   <div style="">
+      <h2 >Genematrix analyzer</h2>
+   </div>
+   <form action="/app"  method="post">
+      <div style="padding: 10px">
+         <input type="text" name="user" id="user"  style="
+            height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 50%;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            " placeholder="Username"/>
+      </div>
+      <div style="padding: 10px">
+         <input type="password" name="pass" id="pass" style="height: calc(1.5em + .75rem + 2px);
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            width: 50%;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;" placeholder="Password" />
+      </div>
+      <div style="">
+         <input type="submit" value="Sign in" style="
+            width: 200px;
+            background: rgb(47, 22, 209);
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            line-height: 2.5;
+            font-size: 14px;
+            color: white;margin: 20px 0px;
+            font-weight: 400;
+            text-align: center;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            "/>
+      </div>
+   </form>
+</div>
   `);
 });
 
@@ -57,23 +96,61 @@ app.post("/app", (req: Request, res: Response) => {
   let correct = user === "Ginekologija lab" && pass === "Ginekologija1"
   if (correct){
     res.send(`
-    <h2>Genematrix analyzer</h2>
-    <form action="/api/upload" enctype="multipart/form-data" method="post">
-        <div>
-        <select name="kitType" id="kitType">     
+    <div style="display: flex;
+   height: 100vh;
+   align-content: center;
+   justify-content: center;
+   flex-direction: column;
+   text-align: center;
+   font-size: 14pt;">
+<div style="">
+   <h2 >
+      Genematrix analyzer
+   </h2></div>
+   <form action="/api/upload" enctype="multipart/form-data" method="post">
+      <div style="padding: 10px">
+         <select name="kitType" id="kitType" style="width: 350px;
+            height: 40px;
+            background: rgb(47, 22, 209);
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            line-height: 2.5;
+            font-size: 14px;
+            color: white;margin: 20px 0px;
+            font-weight: 400;
+            text-align: center;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;">
             <option value="HPV">Neoplex™ HPV29 Detection Kit</option>
             <option value="STD">NeoPlex™ STI-14 Detection Kit</option>
-            
-        </select>
-      
-        </div>
-      <div>File: <input type="file" name="testResult" multiple="multiple" /></div>
-      <input type="submit" value="Upload" />
-    </form>
+         </select>
+      </div>
+      <div style="padding: 10px">
+         File upload: <input type="file" name="testResult" multiple="multiple" />
+      </div>
+      <div style="padding: 10px">
+         <input type="submit" value="Upload" style="width: 200px;
+            background: rgb(47, 22, 209);
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            line-height: 2.5;
+            font-size: 14px;
+            color: white;margin: 20px 0px;
+            font-weight: 400;
+            text-align: center;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;"/>
+      </div>
+   </form>
+</div>
   `);
   }else{
     res.send(`
-      <h2>Invalid username or password</h2>
+      <h3 style="color:red">Invalid username or password!</h3>
     `)
   }
 
@@ -101,14 +178,16 @@ app.post('/api/upload', (req, res, next) => {
     }
     let kitHeaders:any = {
       "HPV":`
-       cellpadding="8">
+       cellpadding="6">
 <tr>
-<th colspan="2"></th>
+<th colspan="2">Analysis date</th>
 <th colspan="14">T1</th>
 <th colspan="15">T2</th>
+<th colspan="1"></th>
 </tr>
 <tr>
-<th colspan="2"></th>
+<th colspan="2">${moment()
+          .format("DD/MM/YYYY HH:mm:ss")}</th>
 <th colspan="3">FAM</th>
 <th colspan="3">HEX</th>
 <th colspan="3">Texas Red</th>
@@ -119,20 +198,24 @@ app.post('/api/upload', (req, res, next) => {
 <th colspan="3">Texas Red</th>
 <th colspan="3">Cy5</th>
 <th colspan="3">Alexa Fluor 680</th>
+<th colspan="1"></th>
 </tr>`,
       "STD":`
-       cellpadding="8">
+       cellpadding="6">
 <tr>
-<th colspan="2"></th>
+<th colspan="2">Analysis date</th>
 <th colspan="14">T1</th>
+<th colspan="1"></th>
 </tr>
 <tr>
-<th colspan="2"></th>
+<th colspan="2">${moment()
+          .format("DD/MM/YYYY HH:mm:ss")}</th>
 <th colspan="3">FAM</th>
 <th colspan="3">HEX</th>
 <th colspan="3">Texas Red</th>
 <th colspan="3">Cy5</th>
 <th colspan="2">Alexa Fluor 680</th>
+<th colspan="1"></th>
 </tr>
       `
     }
@@ -147,9 +230,10 @@ app.post('/api/upload', (req, res, next) => {
     let options = {
       data:result.xlsTable,
       header:result.header,
+      css: 'table {text-align: center;}',
       border: 1,
-      cellspacing: 3,
-      cellpadding: 8
+      cellspacing: 2,
+      cellpadding: 6
     }
     let htmlData = html_tablify.tablify(options)
 
@@ -167,15 +251,18 @@ app.post('/api/upload', (req, res, next) => {
         "\">xx</td>")
     htmlData = htmlData.replaceAll("<td>x</td>","<td style=\"background:lightcoral\n" +
         "\">x</td>")
-    htmlData = htmlData.replaceAll(" cellpadding=\"8\">",kitHeader)
+    htmlData = htmlData.replaceAll(" cellpadding=\"6\">",kitHeader)
     htmlData = `
       <h2>${kitTitle}</h2>
            ${htmlData}
        <p>${file.originalFilename}</p>
-       <p>${moment()
-        .format("DD/MM/YYYY HH:mm:ss")}</p>
        
-       <table id="tablify" class="tablify" border="1" cellspacing="3" cellpadding="8">
+       
+       <table id="tablify" class="tablify" border="1" cellspacing="3" cellpadding="6">
+       <tr>
+  <td style="text-align: center" colspan="2">Legend</td>
+  
+</tr>
 <tr>
   <td style="background:lightcoral">+</td>
   <td>Detection</td>
