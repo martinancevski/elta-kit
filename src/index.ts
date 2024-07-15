@@ -152,9 +152,21 @@ app.post('/api/upload', (req, res, next) => {
       cellpadding: 8
     }
     let htmlData = html_tablify.tablify(options)
-    
-    htmlData = htmlData.replaceAll("<td>+</td>","<td style=\"color:red\n" +
+
+    htmlData = htmlData.replaceAll("<td>+</td>","<td style=\"background:lightcoral\n" +
         "\">+</td>")
+    htmlData = htmlData.replaceAll("<td>✓✓</td>","<td style=\"background:lightgreen\n" +
+        "\">✓✓</td>")
+    htmlData = htmlData.replaceAll("<td>✓</td>","<td style=\"background:lightgreen\n" +
+        "\">✓</td>")
+    htmlData = htmlData.replaceAll("<td>✓x</td>","<td style=\"background:lightsalmon\n" +
+        "\">✓x</td>")
+    htmlData = htmlData.replaceAll("<td>x✓</td>","<td style=\"background:lightsalmon\n" +
+        "\">x✓</td>")
+    htmlData = htmlData.replaceAll("<td>xx</td>","<td style=\"background:lightcoral\n" +
+        "\">xx</td>")
+    htmlData = htmlData.replaceAll("<td>x</td>","<td style=\"background:lightcoral\n" +
+        "\">x</td>")
     htmlData = htmlData.replaceAll(" cellpadding=\"8\">",kitHeader)
     htmlData = `
       <h2>${kitTitle}</h2>
@@ -162,6 +174,36 @@ app.post('/api/upload', (req, res, next) => {
        <p>${file.originalFilename}</p>
        <p>${moment()
         .format("DD/MM/YYYY HH:mm:ss")}</p>
+       
+       <table id="tablify" class="tablify" border="1" cellspacing="3" cellpadding="8">
+<tr>
+  <td style="background:lightcoral">+</td>
+  <td>Detection</td>
+</tr>
+<tr>
+  <td></td>
+  <td>Not detected</td>
+</tr>
+    <tr>
+      <td style="background:lightgreen">✓✓</td>
+      <td>Positive IC</td>
+    </tr>
+  <tr>
+    <td style="background:lightsalmon
+    ">✓x</td>
+    <td>Partial IC T1</td>
+  </tr>
+  <tr>
+    <td style="background:lightsalmon
+    ">x✓</td>
+    <td>Partial IC T2</td>
+  </tr>
+  <tr>
+    <td style="background:lightcoral
+    ">xx</td>
+    <td>Negative IC</td>
+  </tr>
+</table
     `
     // let workbook = XLSX.utils.book_new()
     // let tempWorkbook = KitResults.convertJsonToMatrix(result.xlsTable)!

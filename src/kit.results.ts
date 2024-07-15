@@ -92,7 +92,7 @@ export class KitResults{
                 if (tempFound){
 
                     if (specKey === "IC"){
-                        sampleResult.IC += "+"
+                        sampleResult.IC += "✓"
                     }else{
                         sampleResult[specKey] += "+"
                     }
@@ -101,7 +101,7 @@ export class KitResults{
                 }else{
 
                     if (specKey === "IC"){
-                        sampleResult.IC += "-"
+                        sampleResult.IC += "x"
                     }else{
                         sampleResult[specKey] += "-"
                     }
