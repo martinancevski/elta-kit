@@ -33,7 +33,7 @@ app.get("/", (req: Request, res: Response) => {
     <form action="/api/upload" enctype="multipart/form-data" method="post">
         <div>
         <select name="kitType" id="kitType">     
-            <option value="HPV">Neoplex™ HPV HR Detection Kit</option>
+            <option value="HPV">Neoplex™ HPV29 Detection Kit</option>
             <option value="STD">NeoPlex™ STI-14 Detection Kit</option>
             
         </select>
