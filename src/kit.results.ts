@@ -43,6 +43,7 @@ export class KitResults{
             if (sampleId === "PC1" || sampleId === "PC2"){
                 row.C = "PC1/2"
             }
+
         }
         for (let row of this.resultData){
             let sampleId = row.C
@@ -73,7 +74,7 @@ export class KitResults{
             let dye = row.E
             let gene = row.F
             let key = `${dye} ${gene}`
-            let temperatures = [parseFloat(""+row.G),parseFloat(""+row.I),parseFloat(""+row.K),parseFloat(""+row.M)]
+            let temperatures = [parseFloat(""+row.H),parseFloat(""+row.J),parseFloat(""+row.L),parseFloat(""+row.N)]
 
             let sampleResult = result[sampleId]
             let specifications = this.kitSpecification[key]
