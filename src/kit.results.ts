@@ -82,7 +82,7 @@ export class KitResults{
             let gene = row.F
             let key = `${dye} ${gene}`
             let temperatures = [parseFloat(""+row.H),parseFloat(""+row.J),parseFloat(""+row.L),parseFloat(""+row.N)]
-
+            console.log(temperatures)
             let sampleResult = result[sampleId]
             let specifications = this.kitSpecification[key]
             for (let specKey in specifications){

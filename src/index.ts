@@ -293,10 +293,10 @@ app.post('/api/upload', (req, res, next) => {
 </tr>
 <tr>
   <td style="background:lightcoral">+</td>
-  <td>Detection</td>
+  <td>Detected</td>
 </tr>
 <tr>
-  <td></td>
+  <td>-</td>
   <td>Not detected</td>
 </tr>
     <tr>
