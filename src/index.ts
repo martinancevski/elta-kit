@@ -29,12 +29,12 @@ const excelToJson = require('convert-excel-to-json');
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`
-    <h2>Elta kit analyzer</h2>
+    <h2>Genematrix analyzer</h2>
     <form action="/api/upload" enctype="multipart/form-data" method="post">
         <div>
         <select name="kitType" id="kitType">     
-            <option value="HPV">HPV KIT</option>
-            <option value="STD">STD KIT</option>
+            <option value="HPV">Neoplex™ HPV HR Detection Kit</option>
+            <option value="STD">NeoPlex™ STI-14 Detection Kit</option>
             
         </select>
       
