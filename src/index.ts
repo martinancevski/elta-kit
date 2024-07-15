@@ -70,12 +70,12 @@ app.get("/", (req: Request, res: Response) => {
       <div style="">
          <input type="submit" value="Sign in" style="
             width: 200px;
-            background: rgb(47, 22, 209);
+            background: lightgreen;
             border: 1px solid #ced4da;
             border-radius: .25rem;
             line-height: 2.5;
             font-size: 14px;
-            color: white;margin: 20px 0px;
+            color: black;margin: 20px 0px;
             font-weight: 400;
             text-align: center;
             padding: .375rem .75rem;
@@ -111,12 +111,12 @@ app.post("/app", (req: Request, res: Response) => {
       <div style="padding: 10px">
          <select name="kitType" id="kitType" style="width: 350px;
             height: 40px;
-            background: rgb(47, 22, 209);
+            background: lightgreen;
             border: 1px solid #ced4da;
             border-radius: .25rem;
             line-height: 2.5;
             font-size: 14px;
-            color: white;margin: 20px 0px;
+            color: black;margin: 20px 0px;
             font-weight: 400;
             text-align: center;
             padding: .375rem .75rem;
@@ -132,18 +132,16 @@ app.post("/app", (req: Request, res: Response) => {
       </div>
       <div style="padding: 10px">
          <input type="submit" value="Upload" style="width: 200px;
-            background: rgb(47, 22, 209);
+            background: lightgreen;
             border: 1px solid #ced4da;
             border-radius: .25rem;
-            line-height: 2.5;
-            font-size: 14px;
-            color: white;margin: 20px 0px;
+            color: black;margin: 20px 0px;
             font-weight: 400;
             text-align: center;
             padding: .375rem .75rem;
             font-size: 1rem;
             line-height: 1.5;
-            border-radius: .25rem;"/>
+            "/>
       </div>
    </form>
 </div>
@@ -183,7 +181,17 @@ app.post('/api/upload', (req, res, next) => {
 <th colspan="2">Analysis date</th>
 <th colspan="14">T1</th>
 <th colspan="15">T2</th>
-<th colspan="1"></th>
+<th colspan="1"><input type="button" onclick="printDiv('print-content')" value="Print result" style="
+            background: lightgreen;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            color: black;
+            font-weight: 400;
+            text-align: center;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            "/></th>
 </tr>
 <tr>
 <th colspan="2">${moment()
@@ -205,7 +213,17 @@ app.post('/api/upload', (req, res, next) => {
 <tr>
 <th colspan="2">Analysis date</th>
 <th colspan="14">T1</th>
-<th colspan="1"></th>
+<th colspan="1"><input type="button" onclick="printDiv('print-content')" value="Print result" style="
+            background: lightgreen;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            color: black;
+            font-weight: 400;
+            text-align: center;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            "/></th>
 </tr>
 <tr>
 <th colspan="2">${moment()
@@ -253,11 +271,21 @@ app.post('/api/upload', (req, res, next) => {
         "\">x</td>")
     htmlData = htmlData.replaceAll(" cellpadding=\"6\">",kitHeader)
     htmlData = `
+<script type="text/javascript">
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        w=window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+</script>
+      <div id="print-content">
       <h2>${kitTitle}</h2>
            ${htmlData}
        <p>${file.originalFilename}</p>
        
-       
+       </div>
        <table id="tablify" class="tablify" border="1" cellspacing="3" cellpadding="6">
        <tr>
   <td style="text-align: center" colspan="2">Legend</td>
