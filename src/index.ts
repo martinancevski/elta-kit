@@ -101,9 +101,14 @@ app.post('/api/upload', (req, res, next) => {
     let result = kitResult.getXlsResult()
     let options = {
       data:result.xlsTable,
-      header:result.header
+      header:result.header,
+      border: 1,
+      cellspacing: 3,
+      cellpadding: 8
     }
     let htmlData = html_tablify.tablify(options)
+    htmlData = htmlData.replaceAll("<td>+</td>","<td style=\"color:red\n" +
+        "\">+</td>")
     // let workbook = XLSX.utils.book_new()
     // let tempWorkbook = KitResults.convertJsonToMatrix(result.xlsTable)!
     // let ws = XLSX.utils.aoa_to_sheet(tempWorkbook)
