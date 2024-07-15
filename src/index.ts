@@ -67,7 +67,8 @@ app.post('/api/upload', (req, res, next) => {
     let kitResult = new KitResults(kits[value[0]],resultJson.Result)
     let result = kitResult.getXlsResult()
     let options = {
-      data:result.xlsTable
+      data:result.xlsTable,
+      header:result.header
     }
     let htmlData = html_tablify.tablify(options)
     // let workbook = XLSX.utils.book_new()

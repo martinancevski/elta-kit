@@ -27,9 +27,26 @@ export class KitResults{
         // },
 
         let result:any = {}
+        let resultKeys:string[] = ["id","IC"]
+        for (let key in this.kitSpecification){
+            let temp:any = this.kitSpecification[key]
+            for (let subkey in temp){
+                if (subkey !== "IC"){
+                    resultKeys.push(subkey)
+                }
 
+            }
+
+        }
         for (let row of this.resultData){
             let sampleId = row.C
+            if (sampleId === "PC1" || sampleId === "PC2"){
+                row.C = "PC1/2"
+            }
+        }
+        for (let row of this.resultData){
+            let sampleId = row.C
+
             let dye = row.E
             let gene = row.F
             let key = `${dye} ${gene}`
@@ -42,7 +59,12 @@ export class KitResults{
             sampleResult.id = sampleId
             sampleResult.IC = ""
             for (let key in this.kitSpecification){
-                sampleResult[key] = ""
+                let temp:any = this.kitSpecification[key]
+                for (let subkey in temp){
+                    sampleResult[subkey] = ""
+
+                }
+
             }
         }
 
@@ -70,15 +92,19 @@ export class KitResults{
 
                     if (specKey === "IC"){
                         sampleResult.IC += "+"
+                    }else{
+                        sampleResult[specKey] += "+"
                     }
-                    sampleResult[key] += "+"
+
 
                 }else{
 
                     if (specKey === "IC"){
                         sampleResult.IC += "-"
+                    }else{
+                        sampleResult[specKey] += "-"
                     }
-                    sampleResult[key] += "-"
+
 
                 }
             }
@@ -86,13 +112,21 @@ export class KitResults{
         }
         let table:any[] = []
         for (let key in result){
+            console.log("Key "+key)
             let value = result[key]
-            table.push(value)
+            let temp:any = {}
+
+            for (let orderedKey of resultKeys){
+                temp[orderedKey] = value[orderedKey]
+            }
+            table.push(temp)
         }
+        console.log(table)
         // Utils.writeExcelFile("Test file 2 result",table)
         return {
             data:result,
-            xlsTable:table
+            xlsTable:table,
+            header:resultKeys
         }
     }
 
