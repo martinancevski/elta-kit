@@ -40,7 +40,10 @@ export class KitResults{
         }
         resultKeys.push("comment")
         for (let row of this.resultData){
+            row.C = row.C.replaceAll("-","")
+            row.C = row.C.replaceAll(" ","")
             let sampleId = row.C
+
             if (sampleId === "PC1" || sampleId === "PC2"){
                 row.C = "PC1/2"
             }
@@ -82,7 +85,7 @@ export class KitResults{
             let gene = row.F
             let key = `${dye} ${gene}`
             let temperatures = [parseFloat(""+row.G),parseFloat(""+row.I),parseFloat(""+row.K),parseFloat(""+row.M)]
-            console.log(temperatures)
+            // console.log(temperatures)
             let sampleResult = result[sampleId]
             let specifications = this.kitSpecification[key]
             for (let specKey in specifications){
