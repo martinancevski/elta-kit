@@ -95,9 +95,11 @@ export class KitResults{
                 let tempMax = specData.value + specData.delta
                 let tempFound = false
                 let tempCount = 0
+                let peakMin = this.getPeakTemp(key)
+
                 for (let temp of temperatures){
                     let peak = peaks[tempCount]
-                    if (temp >= tempMin && temp <= tempMax && peak >= tempMin){
+                    if (temp >= tempMin && temp <= tempMax && peak >= peakMin){
                         tempFound = true
                     }
                     tempCount++
@@ -198,5 +200,25 @@ export class KitResults{
         }
 
         return result
+    }
+
+    getPeakTemp(color:string):number {
+        
+        if (color.startsWith("FAM")){
+            return 40
+        }
+        if (color.startsWith("HEX")){
+            return 50
+        }
+        if (color.startsWith("Texas")){
+            return 65
+        }
+        if (color.startsWith("Cy5")){
+            return 90
+        }
+        if (color.startsWith("Alexa")){
+            return 65
+        }
+        return 0
     }
 }
