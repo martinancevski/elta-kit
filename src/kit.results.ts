@@ -85,6 +85,7 @@ export class KitResults{
             let gene = row.F
             let key = `${dye} ${gene}`
             let temperatures = [parseFloat(""+row.G),parseFloat(""+row.I),parseFloat(""+row.K),parseFloat(""+row.M)]
+            let peaks = [parseFloat(""+row.H),parseFloat(""+row.J),parseFloat(""+row.L),parseFloat(""+row.N)]
             // console.log(temperatures)
             let sampleResult = result[sampleId]
             let specifications = this.kitSpecification[key]
@@ -93,11 +94,13 @@ export class KitResults{
                 let tempMin = specData.value - specData.delta
                 let tempMax = specData.value + specData.delta
                 let tempFound = false
+                let tempCount = 0
                 for (let temp of temperatures){
-
-                    if (temp >= tempMin && temp <= tempMax){
+                    let peak = peaks[tempCount]
+                    if (temp >= tempMin && temp <= tempMax && peak >= tempMin){
                         tempFound = true
                     }
+                    tempCount++
                 }
                 if (tempFound){
 
