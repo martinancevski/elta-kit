@@ -121,7 +121,12 @@ export class KitResults{
                 }else{
 
                     if (specKey === "IC"){
-                        sampleResult.IC += "x"
+                        if (sampleResult["61"]==="+"&& sampleResult["70"]==="+"&& sampleResult["73"]==="+"&& sampleResult.IC.length === 1 ){
+                            sampleResult.IC += "✓"
+                        }else{
+                            sampleResult.IC += "x"
+                        }
+
                     }else{
                         sampleResult[specKey] += "-"
                     }
@@ -203,7 +208,7 @@ export class KitResults{
     }
 
     getPeakTemp(color:string):number {
-        
+
         if (color.startsWith("FAM")){
             return 40
         }
@@ -214,7 +219,7 @@ export class KitResults{
             return 65
         }
         if (color.startsWith("Cy5")){
-            return 90
+            return 60
         }
         if (color.startsWith("Alexa")){
             return 65
