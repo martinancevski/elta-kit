@@ -1,0 +1,43 @@
+import {KitResultsBcr} from "./kit.results.bcr";
+
+const excelToJson = require('convert-excel-to-json');
+
+export class KitSecond{
+    getSecondKitResponse(files:any,req:any, res:any){
+        let file = files["testResult"]![0]
+        let resultJson = excelToJson({
+            sourceFile:file.filepath
+        })
+
+
+        let kitResults = new KitResultsBcr(resultJson)
+        let htmlData = `
+<body style="font-family: 'Helvetica'">
+<script type="text/javascript">
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        w=window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+</script>
+      <div id="print-content">
+      <h2>TRUReport - BCR-ABL1 QT</h2>
+          <h4>Standards</h4>
+         <div>  ${kitResults.makeStandardTable()}</div>
+         <h4>Calculation for IS ratio %</h4>
+         <div>  ${kitResults.makeUserTable()}</div>
+       <p>${file.originalFilename}</p>
+       
+       </div>
+       </body>
+        `
+        htmlData = htmlData.replaceAll("<td>✓</td>","<td style=\"background:lightgreen\n" +
+            "\">✓</td>")
+        htmlData = htmlData.replaceAll("<td>x</td>","<td style=\"background:lightcoral\n" +
+            "\">x</td>")
+        res.send(htmlData)
+        // res.send(resultJson)
+    }
+}

@@ -6,6 +6,7 @@ import {KitResults} from "./kit.results";
 import {KIT_HPV, KIT_STD} from "./kit.data";
 import XLSX from "xlsx"
 import moment from "moment";
+import {KitSecond} from "./kit.second";
 var html_tablify = require('html-tablify');
 dotenv.config();
 
@@ -93,7 +94,25 @@ app.post("/app", (req: Request, res: Response) => {
 
   let user = req.body.user
   let pass = req.body.pass
-  let correct = user === "Ginekologija lab" && pass === "Ginekologija1"
+  let correct = false
+  let options = ""
+  let title = ""
+  if (user === "Hematologija lab" && pass === "Hematologija1"){
+      correct = true
+      options = `
+        <option value="STD2">BCR-ABL1 Kit TruPCR</option>
+      `
+    title = "TRUReport - BCR-ABL1 QT"
+  }
+  if (user === "Ginekologija lab" && pass === "Ginekologija1"){
+      correct = true
+      options = `
+            <option value="HPV">Neoplex™ HPV29 Detection Kit</option>
+            <option value="STD">NeoPlex™ STI-14 Detection Kit</option>
+            
+      `
+    title = "Genematrix analyzer"
+  }
   if (correct){
     res.send(`
     <div style="display: flex;
@@ -105,7 +124,7 @@ app.post("/app", (req: Request, res: Response) => {
    font-size: 14pt;">
 <div style="">
    <h2 >
-      Genematrix analyzer
+      ${title}
    </h2></div>
    <form action="/api/upload" enctype="multipart/form-data" method="post">
       <div style="padding: 10px">
@@ -123,8 +142,7 @@ app.post("/app", (req: Request, res: Response) => {
             font-size: 1rem;
             line-height: 1.5;
             border-radius: .25rem;">
-            <option value="HPV">Neoplex™ HPV29 Detection Kit</option>
-            <option value="STD">NeoPlex™ STI-14 Detection Kit</option>
+            ${options}
          </select>
       </div>
       <div style="padding: 10px">
@@ -165,6 +183,11 @@ app.post('/api/upload', (req, res, next) => {
     console.log(fields)
     let value = fields["kitType"]!
     console.log("Value "+value[0])
+    if (value[0] === "STD2"){
+        let secondKit = new KitSecond()
+        secondKit.getSecondKitResponse(files,req,res)
+    }
+
     let kits:any = {
       "HPV":KIT_HPV,
       "STD":KIT_STD
