@@ -10,6 +10,12 @@ export class KitResultsBcr{
     isCalculationMap:any = {}
     standardMap:any = {}
 
+    ncn1 = 0.218
+    ncn2 = 0.05
+    ncn3 = 0.5
+
+    isCalculation = -1
+
     constructor(xlsJson:any) {
         let rows:any[] = xlsJson.Statistics
 
@@ -119,23 +125,44 @@ export class KitResultsBcr{
         }
         this.standardMap = result
     }
+    getISConstantsTable():string{
+        let tableRows:any[] = [
+            {
+                "CAL NCN % Assigned": this.ncn1,
+                "CAL NCN Lower cutoff": this.ncn2,
+                "CAL NCN Upper cutoff": this.ncn3,
+            }
+        ]
+
+        let options = {
+            data:tableRows,
+            header:["CAL NCN % Assigned","CAL NCN Lower cutoff","CAL NCN Upper cutoff"],
+            css: 'table {text-align: center;}',
+            border: 1,
+            cellspacing: 2,
+            cellpadding: 6
+        }
+        let htmlData = html_tablify.tablify(options)
+        return htmlData
+    }
     makeISTable():string{
         let bcr = this.isCalculationMap.bcrConcentraionMean
         let abl = this.isCalculationMap.ablConcentraionMean
-        let ncn1 = 0.218
-        let ncn2 = 0.05
-        let ncn3 = 0.5
 
-        let percentage = "x"
-        let validation = "x"
-        let factor = "x"
+
+        let percentage = "invalid"
+        let validation = "invalid"
+        let factor = "invalid"
         if (_.isNumber(bcr) && _.isNumber(abl)){
 
             let percentageNumber = _.round(bcr/abl*100,4)
+            this.isCalculation = percentageNumber
             percentage = percentageNumber+"%"
-            if (percentageNumber >= ncn2 && percentageNumber <= ncn3){
-                validation = "✓"
-                let factorValue = _.round(ncn1/percentageNumber,4)
+            if (percentageNumber >= this.ncn2 && percentageNumber <= this.ncn3){
+                validation = "valid"
+                let factorValue = this.ncn1/percentageNumber
+
+                factorValue = _.round(factorValue,4)
                 factor = ""+factorValue
             }
         }
@@ -240,14 +267,15 @@ export class KitResultsBcr{
                 "ABL1 (CN ≥10,000 copies)": this.formatValue(data.ablConcentraionMean),
                 "Major BCR-ABL1 Ct Value": this.formatValue(data.bcrCtMean),
                 "Major BCR-ABL1 (CN)": this.formatValue(data.bcrConcentraionMean),
-                "Major BCR-ABL1": this.calculateUserScore(data.ablConcentraionMean,data.bcrConcentraionMean)
+                "Major BCR-ABL1 (NCN %)": this.calculateUserScore(data.ablConcentraionMean,data.bcrConcentraionMean),
+                "Major BCR-ABL1 (IS NCN %)":this.calculateUserScore2(data.ablConcentraionMean,data.bcrConcentraionMean)
             }
             tableRows.push(row)
         }
 
         let options = {
             data:tableRows,
-            header:["Sample ID","ABL1 Ct Value","ABL1 (CN ≥10,000 copies)","Major BCR-ABL1 Ct Value","Major BCR-ABL1 (CN)","Major BCR-ABL1"],
+            header:["Sample ID","ABL1 Ct Value","ABL1 (CN ≥10,000 copies)","Major BCR-ABL1 Ct Value","Major BCR-ABL1 (CN)","Major BCR-ABL1 (NCN %)","Major BCR-ABL1 (IS NCN %)"],
             css: 'table {text-align: center;}',
             border: 1,
             cellspacing: 2,
@@ -280,6 +308,17 @@ export class KitResultsBcr{
                 return ""+_.round(calculation,3)+"%"
             }
         }
-        return "x"
+        return "negative"
+    }
+
+    private calculateUserScore2(ablValue:number | undefined, bcrValue:number | undefined){
+        if (ablValue && bcrValue && this.isCalculation>0){
+            if (ablValue >= 10000){
+                let calculation = bcrValue/ablValue * 100
+                calculation = calculation*this.ncn1/this.isCalculation
+                return ""+_.round(calculation,3)+"%"
+            }
+        }
+        return "negative"
     }
 }
