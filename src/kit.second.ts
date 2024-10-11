@@ -23,9 +23,22 @@ export class KitSecond{
     }
 </script>
       <div id="print-content">
-      <h2>TRUReport - BCR-ABL1 QT</h2>
+      <div><span><h2>TRUReport - BCR-ABL1 QT</h2> </span><span><input type="button" onclick="printDiv('print-content')" value="Print result" style="
+            background: lightgreen;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            color: black;
+            font-weight: 400;
+            text-align: center;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            "/>
+            </span></div>
           <h4>Standards</h4>
          <div>  ${kitResults.makeStandardTable()}</div>
+         <h4>Calculation for IS factor</h4>
+         <div> ${kitResults.makeISTable()} </div>
          <h4>Calculation for IS ratio %</h4>
          <div>  ${kitResults.makeUserTable()}</div>
        <p>${file.originalFilename}</p>

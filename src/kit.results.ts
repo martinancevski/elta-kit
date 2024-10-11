@@ -6,8 +6,11 @@ export class KitResults{
 
     constructor(kitSpecification: any, resultData: any[]) {
         this.kitSpecification = kitSpecification
+        if (resultData){
+            resultData.shift()
+        }
         this.resultData = resultData
-        this.resultData.shift() //removes the title row
+
     }
 
     getXlsResult(){

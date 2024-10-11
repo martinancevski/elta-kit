@@ -11,13 +11,8 @@ export class KitResultsBcr{
     standardMap:any = {}
 
     constructor(xlsJson:any) {
-        console.log("Json")
-        console.log(xlsJson)
-        for (let key in xlsJson){
-            console.log(key)
-        }
-        let rows = xlsJson.Statistics
-        console.log(rows)
+        let rows:any[] = xlsJson.Statistics
+
         rows.shift()
 
         let stdRowIDs = ["STD1BCR","STD2BCR","STD3BCR","STD4BCR","STD5BCR","STD6BCR","STD1ABL1","STD2ABL1","STD3ABL1","STD4ABL1"]
@@ -124,7 +119,48 @@ export class KitResultsBcr{
         }
         this.standardMap = result
     }
+    makeISTable():string{
+        let bcr = this.isCalculationMap.bcrConcentraionMean
+        let abl = this.isCalculationMap.ablConcentraionMean
+        let ncn1 = 0.218
+        let ncn2 = 0.05
+        let ncn3 = 0.5
 
+        let percentage = "x"
+        let validation = "x"
+        let factor = "x"
+        if (_.isNumber(bcr) && _.isNumber(abl)){
+
+            let percentageNumber = _.round(bcr/abl*100,4)
+            percentage = percentageNumber+"%"
+            if (percentageNumber >= ncn2 && percentageNumber <= ncn3){
+                validation = "✓"
+                let factorValue = _.round(ncn1/percentageNumber,4)
+                factor = ""+factorValue
+            }
+        }
+        let tableRows:any[] = [
+            {
+                "CAL: BCR-ABL1 copies": bcr,
+                "CAL: ABL1 copies": abl,
+                "CAL NCN % Obtained": percentage,
+                "Validation status": validation,
+                "IS factor": factor,
+
+            }
+        ]
+
+        let options = {
+            data:tableRows,
+            header:["CAL: BCR-ABL1 copies","CAL: ABL1 copies","CAL NCN % Obtained","Validation status","IS factor"],
+            css: 'table {text-align: center;}',
+            border: 1,
+            cellspacing: 2,
+            cellpadding: 6
+        }
+        let htmlData = html_tablify.tablify(options)
+        return htmlData
+    }
     makeStandardTable():string{
         let tableRows:any[] = [
             {

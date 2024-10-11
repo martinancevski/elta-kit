@@ -186,6 +186,7 @@ app.post('/api/upload', (req, res, next) => {
     if (value[0] === "STD2"){
         let secondKit = new KitSecond()
         secondKit.getSecondKitResponse(files,req,res)
+      return
     }
 
     let kits:any = {
