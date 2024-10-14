@@ -57,7 +57,7 @@ export class KitResultsBcr{
             let sampleId = row.C
             let gene = row.F
             let ctMean = row.G
-            let concentrationMean = row.J
+            let concentrationMean = row.H
             let tempResult:any = result[sampleId]
             if (!tempResult){
                 tempResult = {}
@@ -89,7 +89,7 @@ export class KitResultsBcr{
 
             let gene = row.F
             let ctMean = row.G
-            let concentrationMean = row.J
+            let concentrationMean = row.H
 
             if (gene === "BCR-ABL1-Maj"){
                 if (_.isNumber(ctMean)){
@@ -118,7 +118,7 @@ export class KitResultsBcr{
             let sampleId = row.C
             let gene = row.F
             let ctMean = row.G
-            let concentrationMean = row.J
+            let concentrationMean = row.H
             let tempResult:any = {}
             if (_.isNumber(ctMean)){
                 tempResult.ctMean = ctMean
