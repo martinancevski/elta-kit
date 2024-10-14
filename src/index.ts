@@ -33,7 +33,7 @@ const excelToJson = require('convert-excel-to-json');
 //   console.log(xlsResult)
 // }
 
-app.get("/", (req: Request, res: Response) => {
+app.get("*", (req: Request, res: Response) => {
   res.send(`
     <div style="display: flex;
    height: 100vh;
