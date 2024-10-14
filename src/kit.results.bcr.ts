@@ -17,9 +17,15 @@ export class KitResultsBcr{
     isCalculation = -1
 
     constructor(xlsJson:any) {
-        let rows:any[] = xlsJson.Statistics
+        let rows:any[] = []
 
-        rows.shift()
+        for (let key in xlsJson){
+            rows = xlsJson[key]
+        }
+        if (rows && rows.length > 0){
+            rows.shift()
+        }
+
 
         let stdRowIDs = ["STD1BCR","STD2BCR","STD3BCR","STD4BCR","STD5BCR","STD6BCR","STD1ABL1","STD2ABL1","STD3ABL1","STD4ABL1"]
         for (let row of rows){
