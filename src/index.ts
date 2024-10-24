@@ -43,7 +43,7 @@ app.get("*", (req: Request, res: Response) => {
    text-align: center;
    font-size: 14pt;">
    <div style="">
-      <h2 >Genematrix analyzer</h2>
+      <h2 >Elta 90</h2>
    </div>
    <form action="/app"  method="post">
       <div style="padding: 10px">
