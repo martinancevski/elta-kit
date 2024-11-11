@@ -21,6 +21,7 @@ export class KitResultsBcr{
 
         for (let key in xlsJson){
             rows = xlsJson[key]
+            break
         }
         if (rows && rows.length > 0){
             rows.shift()
